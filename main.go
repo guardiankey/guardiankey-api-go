@@ -22,7 +22,7 @@ func main() {
 	userAgent := "Mozilla/5.0"
 	username := "testuser"
 	useremail := "testuser@example.com"
-	loginFailed := false
+	loginFailed := 0
 
 	response, err := gk.CheckAccess(clientIP, userAgent, username, useremail, loginFailed)
 	if err != nil {

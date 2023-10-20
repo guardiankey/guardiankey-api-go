@@ -32,7 +32,7 @@ func NewGuardianKey(conf map[string]string) *GuardianKey {
 	}
 }
 
-func (gk *GuardianKey) createEvent(clientIP, userAgent, username, useremail string, loginFailed bool) map[string]interface{} {
+func (gk *GuardianKey) createEvent(clientIP, userAgent, username, useremail string, loginFailed int) map[string]interface{} {
 	event := map[string]interface{}{
 		"generatedTime":     int64(DateNowUnix()),
 		"agentId":           gk.AgentID,
@@ -53,7 +53,7 @@ func (gk *GuardianKey) createEvent(clientIP, userAgent, username, useremail stri
 	return event
 }
 
-func (gk *GuardianKey) CheckAccess(clientIP, userAgent, username, useremail string, loginFailed bool) (map[string]interface{}, error) {
+func (gk *GuardianKey) CheckAccess(clientIP, userAgent, username, useremail string, loginFailed int) (map[string]interface{}, error) {
 	event := gk.createEvent(clientIP, userAgent, username, useremail, loginFailed)
 	eventStr, err := json.Marshal(event)
 	if err != nil {
