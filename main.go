@@ -1,22 +1,34 @@
 package main
 
 import (
-    "fmt"
-    "meu_projeto/guardiankey" // Importe o pacote "guardiankey"
+	"fmt"
+	"guardiankey-api-go/guardiankey"
 )
 
 func main() {
-    // Defina o endpoint de destino e os dados a serem enviados
-    endpoint := "https://exemplo.com/api/endpoint"
-    postData := `{"key": "value"}`
 
-    // Envie a solicitação POST usando o pacote "guardiankey"
-    response, err := guardiankey.SendPostRequest(endpoint, postData)
-    if err != nil {
-        fmt.Println("Erro ao enviar a solicitação POST:", err)
-        return
-    }
+	conf := map[string]string{
+		"organization_id": "",
+		"authgroup_id":    "",
+		"key":             "",
+		"iv":              "",
+		"service":         "go-test",
+		"agentId":         "",
+	}
 
-    // Imprima a resposta
-    fmt.Println("Resposta do servidor:", response)
+	gk := guardiankey.NewGuardianKey(conf)
+
+	clientIP := "127.0.0.1"
+	userAgent := "Mozilla/5.0"
+	username := "testuser"
+	useremail := "testuser@example.com"
+	loginFailed := false
+
+	response, err := gk.CheckAccess(clientIP, userAgent, username, useremail, loginFailed)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println("Response:", response)
 }
